@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
+	"eatfy/models"
 	"github.com/jinzhu/gorm"
 
 	"github.com/gorilla/mux"
