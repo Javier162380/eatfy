@@ -6,6 +6,6 @@ import (
 
 func main() {
 	app := &app.App{}
-	app.Initialize("localhost", "5432", "", "", "")
+	app.Initialize()
 	app.Run(":3000")
 }
