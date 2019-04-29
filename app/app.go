@@ -1,13 +1,13 @@
 package app
 
 import (
-	"fmt"
+	"eatfy/controllers"
+	"eatfy/models"
+	"github.com/gorilla/mux"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"log"
 	"net/http"
-
-	"github.com/jinzhu/gorm"
-
-	"github.com/gorilla/mux"
 )
 
 type App struct {
@@ -15,20 +15,22 @@ type App struct {
 	DB     *gorm.DB
 }
 
-func (a *App) Initialize(host, port, user, password, dbname string) {
-	connectionString :=
-		fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s",
-			host, port, user, password, dbname)
+func (a *App) Initialize() {
 
-	DB, err := gorm.Open("postgres", connectionString)
+	DB, err := gorm.Open("postgres", "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable")
 	if err != nil {
-		log.Fatal("Could not connect database")
+		log.Fatal("Could not connect database %s", err)
 	}
 
-	a.DB = DB
+	a.DB = models.DBMigration(DB)
 	a.Router = mux.NewRouter()
+	a.SetRoutes()
 }
 
 func (a *App) Run(host string) {
 	log.Fatal(http.ListenAndServe(host, a.Router))
+}
+
+func (a *App) SetRoutes() {
+	a.Router.HandleFunc("users", controllers.CreateUser(a.DB)).Methods("POST")
 }
