@@ -3,11 +3,12 @@ package app
 import (
 	"eatfy/controllers"
 	"eatfy/models"
+	"log"
+	"net/http"
+
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
-	"log"
-	"net/http"
 )
 
 type App struct {
@@ -32,5 +33,7 @@ func (a *App) Run(host string) {
 }
 
 func (a *App) SetRoutes() {
-	a.Router.HandleFunc("users", controllers.CreateUser(a.DB)).Methods("POST")
+
+	a.Router.HandleFunc("/users", controllers.CreateUser(a.DB)).Methods("POST")
+
 }
