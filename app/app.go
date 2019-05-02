@@ -22,6 +22,7 @@ func (a *App) Initialize() {
 	if err != nil {
 		log.Fatal("Could not connect database %s", err)
 	}
+	DB.LogMode(true)
 
 	a.DB = models.DBMigration(DB)
 	a.Router = mux.NewRouter()
@@ -35,5 +36,5 @@ func (a *App) Run(host string) {
 func (a *App) SetRoutes() {
 
 	a.Router.HandleFunc("/users", controllers.CreateUser(a.DB)).Methods("POST")
-
+	a.Router.HandleFunc("/login", controllers.Login(a.DB)).Methods("GET")
 }
