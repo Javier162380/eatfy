@@ -4,21 +4,26 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+type UserLogin struct {
+	UserIdentifier string `json:"user_identifier"`
+	UserPassword   string `json:"user_password"`
+}
+
 type User struct {
 	gorm.Model
-	User_name     string `gorm:"not null;unique;size:235" json:"user_name"`
-	User_email    string `gorm:"not null;unique;size:235" json:"user_email"`
-	User_password string `gorm:"not null;size:235" json:"user_password"`
-	User_phone    int    `json:"user_phone"`
-	Zip_code      int    `json:"zip_code,omitempty"`
+	UserName     string `gorm:"not null;unique;size:235" json:"user_name"`
+	UserEmail    string `gorm:"not null;unique;size:235" json:"user_email"`
+	UserPassword string `gorm:"not null;size:235" json:"user_password"`
+	UserPhone    int    `json:"user_phone"`
+	ZipCode      int    `json:"zip_code,omitempty"`
 }
 
 type UserPreferences struct {
 	gorm.Model
-	Prefer_food             string `gorm:"varchar(1000)" json:"prefer_food"`
-	Prefer_launch_schedules string `gorm:"varchar(1000)" json:"prefer_launch_schedules"`
-	Prefer_restaurant_style string `gorm:"varchar(1000)" json:"prefer_restaurant_style"`
-	Prefer_music            string `gorm:"varchar(1000)" json:"prefer_music"`
+	PreferFood            string `gorm:"varchar(1000)" json:"prefer_food"`
+	PreferLaunchSchedules string `gorm:"varchar(1000)" json:"prefer_launch_schedules"`
+	PreferRestaurantStyle string `gorm:"varchar(1000)" json:"prefer_restaurant_style"`
+	PreferMusic           string `gorm:"varchar(1000)" json:"prefer_music"`
 }
 
 func DBMigration(db *gorm.DB) *gorm.DB {
