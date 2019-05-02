@@ -11,7 +11,6 @@ import (
 
 func CreateUser(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-
 		user := models.User{}
 		err := json.NewDecoder(r.Body).Decode(&user)
 		if err != nil {
@@ -22,9 +21,7 @@ func CreateUser(db *gorm.DB) http.HandlerFunc {
 		defer r.Body.Close()
 
 		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.User_password), 8)
-
 		user.User_password = string(hashedPassword)
-
 		userCreation, err := db.Debug().Create(&user)
 
 		if err != nil {
@@ -37,11 +34,4 @@ func CreateUser(db *gorm.DB) http.HandlerFunc {
 		w.WriteHeader(http.StatusCreated)
 		w.Write(userjson)
 	}
-}
-
-func Login(db *gorm.DB) http.Handler {
-	return func(w http.ResponseWriter, r *http.Requests) {
-
-	}
-
 }
