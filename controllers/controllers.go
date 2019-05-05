@@ -19,6 +19,7 @@ func CreateUser(db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte("500 - Invalid Request"))
 			return
 		}
+
 		defer r.Body.Close()
 
 		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.UserPassword), 8)
@@ -42,8 +43,8 @@ func Login(db *gorm.DB) http.HandlerFunc {
 		user_login := models.UserLogin{}
 		err := json.NewDecoder(r.Body).Decode(&user_login)
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("500 - Invalid Request"))
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte("400 - Invalid Request"))
 			return
 		}
 		defer r.Body.Close()
@@ -67,6 +68,32 @@ func Login(db *gorm.DB) http.HandlerFunc {
 
 		w.WriteHeader(http.StatusAccepted)
 		w.Write([]byte("202 - User was login succesfully"))
+		return
+
+	}
+}
+
+func CreateUserPreferences(db *gorm.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		user_preferences := models.UserPreferences{}
+		err := json.NewDecoder(r.Body).Decode(&user_preferences)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte("400 - Invalid Request"))
+			return
+		}
+		defer r.Body.Close()
+
+		userCreation := db.Create(&user_preferences)
+
+		if userCreation.Error != nil {
+			w.WriteHeader(http.StatusForbidden)
+			w.Write([]byte("403 - Problems to store the db objets"))
+			return
+		}
+
+		w.WriteHeader(http.StatusCreated)
+		w.Write([]byte("201 - UserPreferences were created succesfully"))
 		return
 
 	}

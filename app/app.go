@@ -37,4 +37,5 @@ func (a *App) SetRoutes() {
 
 	a.Router.HandleFunc("/users", controllers.CreateUser(a.DB)).Methods("POST")
 	a.Router.HandleFunc("/login", controllers.Login(a.DB)).Methods("GET")
+	a.Router.HandleFunc("/userpreferences"), controllers.CreateUserPreferences(a.DB)).Methods("POST")
 }

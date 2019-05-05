@@ -20,6 +20,7 @@ type User struct {
 
 type UserPreferences struct {
 	gorm.Model
+	UserName              string `gorm:"association_foreignkey:UserName:not null;unique;size:235" json:"user_name"`
 	PreferFood            string `gorm:"varchar(1000)" json:"prefer_food"`
 	PreferLaunchSchedules string `gorm:"varchar(1000)" json:"prefer_launch_schedules"`
 	PreferRestaurantStyle string `gorm:"varchar(1000)" json:"prefer_restaurant_style"`
