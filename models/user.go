@@ -26,8 +26,3 @@ type UserPreferences struct {
 	PreferRestaurantStyle string `gorm:"varchar(1000)" json:"prefer_restaurant_style"`
 	PreferMusic           string `gorm:"varchar(1000)" json:"prefer_music"`
 }
-
-func DBMigration(db *gorm.DB) *gorm.DB {
-	db.AutoMigrate(&User{}, &UserPreferences{})
-	return db
-}
