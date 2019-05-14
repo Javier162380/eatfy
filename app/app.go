@@ -1,7 +1,7 @@
 package app
 
 import (
-	"eatfy/controllers"
+	"eatfy/handlers"
 	"eatfy/models"
 	"log"
 	"net/http"
@@ -35,7 +35,9 @@ func (a *App) Run(host string) {
 
 func (a *App) SetRoutes() {
 
-	a.Router.HandleFunc("/users", controllers.CreateUser(a.DB)).Methods("POST")
-	a.Router.HandleFunc("/login", controllers.Login(a.DB)).Methods("GET")
-	a.Router.HandleFunc("/userpreferences"), controllers.CreateUserPreferences(a.DB)).Methods("POST")
+	a.Router.HandleFunc("/users", handlers.CreateUser(a.DB)).Methods("POST")
+	a.Router.HandleFunc("/login", handlers.Login(a.DB)).Methods("GET")
+	a.Router.HandleFunc("/userpreferences", handlers.CreateUserPreferences(a.DB)).Methods("POST")
+	a.Router.HandleFunc("/reservation", handlers.CreateReservation(a.DB)).Methods("POST")
+	a.Router.HandleFunc("/reservation", handlers.UpdateReservationStatus(a.DB)).Methods("UPDATE")
 }
