@@ -2,9 +2,11 @@ package app
 
 import (
 	"eatfy/handlers"
+	"eatfy/middlewares"
 	"eatfy/models"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
@@ -18,7 +20,7 @@ type App struct {
 
 func (a *App) Initialize() {
 
-	DB, err := gorm.Open("postgres", "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable")
+	DB, err := gorm.Open("postgres", os.Getenv("POSTGRES_URI"))
 	if err != nil {
 		log.Fatal("Could not connect database %s", err)
 	}
@@ -26,11 +28,17 @@ func (a *App) Initialize() {
 
 	a.DB = models.DBMigration(DB)
 	a.Router = mux.NewRouter()
+	a.SetMiddlewares()
 	a.SetRoutes()
 }
 
 func (a *App) Run(host string) {
 	log.Fatal(http.ListenAndServe(host, a.Router))
+}
+
+func (a *App) SetMiddlewares() {
+	a.Router.Use(middlewares.AuthMiddleware, middlewares.LoggingMiddleware)
+
 }
 
 func (a *App) SetRoutes() {
