@@ -11,6 +11,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/joho/godotenv"
 )
 
 type App struct {
@@ -19,6 +20,8 @@ type App struct {
 }
 
 func (a *App) Initialize() {
+
+	err := godotenv.Load()
 
 	DB, err := gorm.Open("postgres", os.Getenv("POSTGRES_URI"))
 	if err != nil {

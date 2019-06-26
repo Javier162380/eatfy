@@ -9,6 +9,7 @@ require (
 	github.com/gorilla/mux v1.7.2
 	github.com/jinzhu/gorm v1.9.4
 	github.com/jinzhu/now v1.0.0 // indirect
+	github.com/joho/godotenv v1.3.0 // indirect
 )
 
 replace eatfy/app v0.0.0 => ./app
